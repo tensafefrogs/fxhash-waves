@@ -1,7 +1,11 @@
+/**
+ * ∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿
+ * "Wiggle" by Geoff Stearns <https://deconept.com>∿
+ * ∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿
+*/
 import p5 from "p5";
 
 const seed = ~~(fxrand() * 123456789);
-console.log(seed);
 let size;
 
 const BASE_POINTS = 11;
@@ -50,22 +54,6 @@ class Point {
     this.y = yPos;
   }
 }
-
-//----------------------
-// defining features
-//----------------------
-// You can define some token features by populating the $fxhashFeatures property
-// of the window object.
-// More about it in the guide, section features:
-// [https://fxhash.xyz/articles/guide-mint-generative-token#features]
-//
-// window.$fxhashFeatures = {
-//   "Background": "Black",
-//   "Number of lines": 10,
-//   "Inverted": true
-// }
-
-// this code writes the values to the DOM as an example
 
 let features = window.$fxhashFeatures = {}
 
