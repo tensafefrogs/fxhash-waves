@@ -7,6 +7,7 @@ import p5 from "p5";
 
 const seed = ~~(fxrand() * 123456789);
 let size;
+let slowDraw = false;
 
 const BASE_POINTS = 11;
 const CHANCE_POINTS = 23;
@@ -65,7 +66,7 @@ let sketch = function(p5) {
     p5.createCanvas(size, size);
   };
 
-  p5.draw = function() {
+  p5.draw = async function() {
     p5.randomSeed(seed);
 
     features["Segment Count"] = numPoints > 19 ? "High" : numPoints < 14 ? "Low" : "Medium";
@@ -93,9 +94,12 @@ let sketch = function(p5) {
     console.log("amp", amplitude);
     let yPos = size / p5.random(size / 20, size / 15);
     
+    // Backgrond Color
     p5.background("#f0ead6"); // Eggshell
+    window.document.body.style = "background-color: #f0ead6";
     if (usePaletteBg) {
       p5.background(palettes[color][0]);
+      window.document.body.style = "background-color: "+ palettes[color][0];
     }
 
     let pts = [];
@@ -112,6 +116,10 @@ let sketch = function(p5) {
     
     p5.translate(-petalSize, size / 2 - petalSize / 1.95);
     for (var i = 0; i <= numPetals; i++) {
+      if (slowDraw) {
+        await sleep(0.1);
+      }
+
       yPos += p5.cos(i / freq) * amplitude;
       p5.push();
       p5.translate(((size + petalSize) / numPetals) * i, yPos);
@@ -126,10 +134,23 @@ let sketch = function(p5) {
     console.log(features);
   };
 
+  p5.mouseClicked = function() {
+    slowDraw = true;
+    p5.clear();
+    p5.redraw();
+  }
+
   p5.windowResized = function() {
     size = p5.min(p5.windowWidth, p5.windowHeight);
     p5.resizeCanvas(size, size);
   }
+}
+
+// a custom 'sleep' or wait' function, that returns a Promise that resolves only after a timeout
+function sleep(millisecondsDuration) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, millisecondsDuration);
+  })
 }
 
 let myp5 = new p5(sketch, window.document.body);
